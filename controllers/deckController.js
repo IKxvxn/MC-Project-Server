@@ -65,8 +65,8 @@ function importDeck(req, res) {
   else if (!AuthController.autentificarAccion(usuario.token)) {
     ResponseBuilder.sendErrorResponse(res, ResponseMessages.tokenExpired)
   }
-
   else {
+    console.log(deckShareCode), "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     deckModel.findOne({ shareCode: deckShareCode }).exec((error, deck) => {
       if (error) {
         ResponseBuilder.sendErrorResponse(res, ResponseMessages.getMongoMessageByErrorCode(error.code))
