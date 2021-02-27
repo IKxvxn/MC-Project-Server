@@ -57,7 +57,6 @@ function createQuizz(req, res) {
         ResponseBuilder.sendSuccessResponse(res, ResponseMessages.quizzCreatedSuccessfully, questions)
       }
     }).catch(error => {
-      console.log(error)
       ResponseBuilder.sendErrorResponse(res, ResponseMessages.getMongoMessageByErrorCode(error.code))
     })
   }

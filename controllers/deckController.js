@@ -34,6 +34,7 @@ function crearDeck(req, res) {
       _id: deck._id,
       owner: usuario.username,
       name: deck.name,
+      shareCode: deck.shareCode,
       colorKey: deck.colorKey,
       bannerKey: deck.bannerKey
     })
@@ -66,10 +67,12 @@ function importDeck(req, res) {
     ResponseBuilder.sendErrorResponse(res, ResponseMessages.tokenExpired)
   }
   else {
-    console.log(deckShareCode), "HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     deckModel.findOne({ shareCode: deckShareCode }).exec((error, deck) => {
       if (error) {
         ResponseBuilder.sendErrorResponse(res, ResponseMessages.getMongoMessageByErrorCode(error.code))
+      }
+      else if(deck === null) {
+        ResponseBuilder.sendErrorResponse(res, ResponseMessages.importDeckFailure)
       }
       else {
         deck._id = uuid.v4()
@@ -264,7 +267,6 @@ function deleteCard(req, res) {
         ResponseBuilder.sendSuccessResponse(res, ResponseMessages.deleteCardSuccess)
       }
     }).catch(error => {
-      console.log(error)
       ResponseBuilder.sendErrorResponse(res, ResponseMessages.getMongoMessageByErrorCode(error.code))
     })
   }
